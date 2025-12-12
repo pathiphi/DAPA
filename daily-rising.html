@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DailyRising - Rise with Purpose, Every Morning</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Define custom colors and font setup */
+        :root {
+            --primary-orange: #f97316; /* Tailwind orange-600 */
+            --dark-bg: #0f172a; /* Tailwind slate-900 */
+            --card-bg: #1e293b; /* Tailwind slate-800 */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: #f8fafc; /* slate-50 */
+        }
+        .text-orange-accent {
+            color: var(--primary-orange);
+        }
+        .bg-orange-accent {
+            background-color: var(--primary-orange);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-sm shadow-lg border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <!-- Logo/Site Name -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-orange-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle><path d="M12 2v2a8 8 0 010 16v2"></path><path d="M12 2v2a8 8 0 000 16v2"></path>
+                </svg>
+                <span class="text-xl font-bold text-white">DailyRising</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <!-- Sun/Light Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <!-- CTA Button -->
+                <a href="#signup" class="bg-orange-accent hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300">
+                    Start Today
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        
+        <!-- 1. Hero Section -->
+        <section class="py-24 md:py-32 text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <img src="https://placehold.co/120x120/1e293b/fff?text=Rise" alt="Morning Routine Visual" class="w-32 h-32 rounded-3xl mx-auto mb-10 shadow-xl" onerror="this.onerror=null;this.src='https://placehold.co/120x120/1e293b/fff?text=Icon';">
+            
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+                Rise with Purpose, <span class="text-orange-accent">Every Morning</span>
+            </h1>
+            
+            <p class="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
+                A simple daily routine that takes just 15 minutes. Wake up, hop on, and follow along with easy exercises designed to energize your entire day.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-10">
+                <a href="#signup" class="bg-orange-accent hover:bg-orange-700 text-white font-bold py-4 px-10 rounded-xl shadow-lg transition duration-300 text-lg">
+                    Start Your Routine
+                </a>
+                <a href="#exercises" class="text-white bg-slate-800 hover:bg-slate-700 font-semibold py-4 px-10 rounded-xl border border-slate-700 transition duration-300 text-lg">
+                    Explore Exercises
+                </a>
+            </div>
+
+            <!-- Gemini API Feature 1: Personalized Tip -->
+            <div class="mb-20">
+                <button 
+                    id="generateTipBtn"
+                    onclick="generateHabitTip()"
+                    class="mt-6 inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 text-base"
+                >
+                    <span id="tipBtnText">✨ Get My Personalized Tip</span>
+                </button>
+                
+                <div id="tipResult" class="mt-8 max-w-2xl mx-auto text-left p-6 bg-slate-800 rounded-xl hidden">
+                    <h3 class="text-lg font-semibold text-orange-accent mb-3">Today's Insight:</h3>
+                    <div id="tipContent" class="text-gray-300"></div>
+                    <div id="tipSources" class="mt-4 text-xs text-gray-500 italic"></div>
+                </div>
+                <div id="tipError" class="mt-4 text-sm text-red-400 hidden"></div>
+            </div>
+            
+            <!-- Key Features -->
+            <div class="flex justify-center flex-wrap gap-8 text-lg font-semibold text-gray-300">
+                <div class="flex items-center space-x-2">
+                    <!-- Clock Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>15 min daily</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <!-- Lightning/No Equipment Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9M13 2l7 7m-7-7v7h7"></path>
+                    </svg>
+                    <span>No equipment</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <!-- Graph/Levels Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                    <span>All levels</span>
+                </div>
+            </div>
+            
+            <!-- Scroll Arrow -->
+            <div class="mt-20">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto text-gray-500 animate-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="7 13 12 18 17 13"></polyline><polyline points="7 6 12 11 17 6"></polyline>
+                </svg>
+            </div>
+            
+        </section>
+
+        <!-- 2. Routine Categories Section -->
+        <section id="exercises" class="py-24 md:py-32 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-800">
+            
+            <div class="text-center mb-16">
+                <span class="inline-block bg-orange-accent text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-4">Your Daily Routine</span>
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-4">
+                    Three Categories, One <span class="text-orange-accent">Complete Routine</span>
+                </h2>
+                <div class="flex flex-col items-center justify-center">
+                    <p id="routineDescription" class="text-lg text-gray-400 max-w-3xl mx-auto">
+                        Each morning, work through these three categories. Start with EZ Wins to wake up, move into Mobility to loosen up, then finish with Calisthenics to energize.
+                    </p>
+                    
+                    <!-- Gemini API Feature 2: TTS -->
+                    <button 
+                        id="ttsBtn"
+                        onclick="generateTtsSummary()"
+                        class="mt-4 inline-flex items-center text-sm font-medium text-blue-400 hover:text-blue-500 transition duration-200"
+                    >
+                        <svg id="ttsIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                        </svg>
+                        <span id="ttsBtnText">🔊 Hear Routine Summary</span>
+                    </button>
+                    <div id="ttsError" class="mt-2 text-sm text-red-400 hidden"></div>
+                </div>
+            </div>
+            
+            <!-- Cards Grid (unchanged content) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Card 1: EZ Wins -->
+                <div class="bg-card-bg rounded-xl p-6 shadow-xl hover:shadow-2xl transition duration-300">
+                    <div class="relative mb-6">
+                        <img src="https://placehold.co/300x180/1e293b/fff?text=EZ+Wins" alt="EZ Wins Thumbnail" class="w-full h-auto rounded-lg mb-4" onerror="this.onerror=null;this.src='https://placehold.co/300x180/1e293b/fff?text=EZ';">
+                        <span class="absolute top-2 right-2 bg-slate-900 text-xs font-medium px-3 py-1 rounded-full text-green-400 border border-green-700">5 Exercises</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">EZ Wins</h3>
+                    <p class="text-gray-400 mb-4 text-sm">
+                        Quick wins to jumpstart your morning. Simple movements that wake up your body and mind without overwhelming you.
+                    </p>
+                    <div class="flex justify-between items-center border-t border-slate-700 pt-4">
+                        <span class="text-gray-500 font-medium">5 Minutes</span>
+                        <a href="#" class="text-orange-accent hover:text-orange-400 font-semibold text-sm transition duration-300">
+                            View exercises &rarr;
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 2: Mobility -->
+                <div class="bg-card-bg rounded-xl p-6 shadow-xl hover:shadow-2xl transition duration-300">
+                    <div class="relative mb-6">
+                        <img src="https://placehold.co/300x180/1e293b/fff?text=Mobility" alt="Mobility Thumbnail" class="w-full h-auto rounded-lg mb-4" onerror="this.onerror=null;this.src='https://placehold.co/300x180/1e293b/fff?text=Mobility';">
+                        <span class="absolute top-2 right-2 bg-slate-900 text-xs font-medium px-3 py-1 rounded-full text-yellow-400 border border-yellow-700">7 Challenges</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Mobility</h3>
+                    <p class="text-gray-400 mb-4 text-sm">
+                        Unlock your body's full range of motion. These flowing movements improve flexibility and prepare you to start your day strong.
+                    </p>
+                    <div class="flex justify-between items-center border-t border-slate-700 pt-4">
+                        <span class="text-gray-500 font-medium">5 Minutes</span>
+                        <a href="#" class="text-orange-accent hover:text-orange-400 font-semibold text-sm transition duration-300">
+                            View exercises &rarr;
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 3: Callisthenics -->
+                <div class="bg-card-bg rounded-xl p-6 shadow-xl hover:shadow-2xl transition duration-300">
+                    <div class="relative mb-6">
+                        <img src="https://placehold.co/300x180/1e293b/fff?text=Callisthenics" alt="Callisthenics Thumbnail" class="w-full h-auto rounded-lg mb-4" onerror="this.onerror=null;this.src='https://placehold.co/300x180/1e293b/fff?text=Calisthenics';">
+                        <span class="absolute top-2 right-2 bg-slate-900 text-xs font-medium px-3 py-1 rounded-full text-red-400 border border-red-700">5 Exercises</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Callisthenics</h3>
+                    <p class="text-gray-400 mb-4 text-sm">
+                        Build strength using just your bodyweight. Combines elements of physical and functional callisthenics for a complete energizing start.
+                    </p>
+                    <div class="flex justify-between items-center border-t border-slate-700 pt-4">
+                        <span class="text-gray-500 font-medium">5 Minutes</span>
+                        <a href="#" class="text-orange-accent hover:text-orange-400 font-semibold text-sm transition duration-300">
+                            View exercises &rarr;
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <!-- 3. Why Start Section (unchanged) -->
+        <section class="py-24 md:py-32 bg-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="max-w-4xl mx-auto text-center">
+                    <span class="inline-block bg-orange-accent text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-4">About DailyRising</span>
+                    <h2 class="text-4xl md:text-5xl font-extrabold mb-8">
+                        Why Start Your Day with <span class="text-orange-accent">Movement</span>?
+                    </h2>
+                    <p class="text-lg text-gray-300 mb-16">
+                        DailyRising was created with one simple belief: the first 15 minutes of your day set the tone. Too often, everything is set to follow. We've distilled the best morning movements into three easy categories anyone can follow.
+                    </p>
+                </div>
+
+                <!-- Benefits List (unchanged) -->
+                <div class="max-w-2xl mx-auto space-y-12">
+                    
+                    <!-- Benefit 1: Morning Energy -->
+                    <div class="flex items-start space-x-6">
+                        <!-- Icon (Sun) -->
+                        <div class="flex-shrink-0 p-3 rounded-full bg-slate-900 border border-orange-accent">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-1 text-white">Morning Energy</h3>
+                            <p class="text-gray-400">Jumpstart your day with natural energy that lasts, no coffee required.</p>
+                        </div>
+                    </div>
+
+                    <!-- Benefit 2: Clear Focus -->
+                    <div class="flex items-start space-x-6">
+                        <!-- Icon (Target/Focus) -->
+                        <div class="flex-shrink-0 p-3 rounded-full bg-slate-900 border border-orange-accent">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-1 text-white">Clear Focus</h3>
+                            <p class="text-gray-400">Mental movement sharpens your mental clarity for your day ahead.</p>
+                        </div>
+                    </div>
+
+                    <!-- Benefit 3: Daily Consistency -->
+                    <div class="flex items-start space-x-6">
+                        <!-- Icon (Check/Consistency) -->
+                        <div class="flex-shrink-0 p-3 rounded-full bg-slate-900 border border-orange-accent">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><path d="M22 4L12 14.01l-3-3"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-1 text-white">Daily Consistency</h3>
+                            <p class="text-gray-400">Show up for yourself every day, building better, healthy habits.</p>
+                        </div>
+                    </div>
+
+                    <!-- Benefit 4: Feel Better -->
+                    <div class="flex items-start space-x-6">
+                        <!-- Icon (Heart) -->
+                        <div class="flex-shrink-0 p-3 rounded-full bg-slate-900 border border-orange-accent">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-1 text-white">Feel Better</h3>
+                            <p class="text-gray-400">Improve mood, reduce soreness, and boost overall well-being.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Testimonial Quote (unchanged) -->
+                <div class="mt-20 max-w-2xl mx-auto pt-10 border-t border-slate-700">
+                    <p class="italic text-lg text-gray-400">
+                        "The way you start your morning determines the trajectory of your entire day. Make it count."
+                    </p>
+                    <p class="mt-4 font-semibold text-gray-500">— The DailyRising Philosophy</p>
+                </div>
+                
+            </div>
+        </section>
+
+        <!-- 4. Final CTA / Signup Section (unchanged) -->
+        <section id="signup" class="py-24 md:py-32 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto bg-card-bg p-8 md:p-12 rounded-2xl shadow-2xl">
+                <span class="inline-block bg-orange-accent text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-4">Get Started</span>
+                
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-6">
+                    Ready to <span class="text-orange-accent">Transform Your Mornings</span>?
+                </h2>
+                
+                <p class="text-lg text-gray-300 mb-8">
+                    Join thousands of people who start their day with DailyRising. Get weekly tips, new exercises, and motivation delivered to your inbox.
+                </p>
+
+                <!-- Guarantee List (unchanged) -->
+                <ul class="space-y-3 mb-12">
+                    <li class="flex items-center text-gray-300 space-x-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span>Free forever, no credit card required</span>
+                    </li>
+                    <li class="flex items-center text-gray-300 space-x-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span>Weekly tips and new exercises</span>
+                    </li>
+                    <li class="flex items-center text-gray-300 space-x-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span>Unsubscribe anytime</span>
+                    </li>
+                </ul>
+
+                <!-- Signup Form (unchanged structure) -->
+                <div class="bg-slate-900 p-8 rounded-xl">
+                    <h4 class="text-xl font-bold mb-4 text-white">Start Your Morning Routine</h4>
+                    <p class="text-gray-400 mb-6">Enter your email to get started and receive our best tips.</p>
+                    
+                    <form class="space-y-4">
+                        <div class="relative">
+                            <!-- Email Input Field -->
+                            <input 
+                                type="email" 
+                                placeholder="your@email.com" 
+                                required 
+                                class="w-full p-4 pl-12 bg-slate-800 text-white rounded-lg border border-slate-700 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                            >
+                            <!-- Mail Icon inside input -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <button 
+                            type="submit" 
+                            class="w-full bg-orange-accent hover:bg-orange-700 text-white font-bold py-4 rounded-lg shadow-lg transition duration-300 text-lg"
+                        >
+                            Start Your Journey
+                        </button>
+                    </form>
+
+                    <p class="text-xs text-gray-500 mt-4 flex items-center justify-center space-x-1">
+                        <!-- Privacy Dot Icon -->
+                        <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 6 6"><circle cx="3" cy="3" r="3"></circle></svg>
+                        <span>We respect your privacy. No spam, ever.</span>
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer (unchanged) -->
+    <footer class="bg-slate-900 py-12 md:py-16 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            
+            <!-- Logo in Footer -->
+            <div class="flex items-center justify-center space-x-2 mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-orange-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle><path d="M12 2v2a8 8 0 010 16v2"></path><path d="M12 2v2a8 8 0 000 16v2"></path>
+                </svg>
+                <span class="text-xl font-bold text-white">DailyRising</span>
+            </div>
+            
+            <p class="text-md text-gray-400 mb-8 max-w-sm mx-auto">
+                Start every morning with purpose. Simple exercises, powerful results.
+            </p>
+
+            <!-- Footer Navigation -->
+            <nav class="flex justify-center space-x-6 text-gray-400 mb-8">
+                <a href="#exercises" class="hover:text-orange-accent transition duration-200">Routine</a>
+                <a href="#" class="hover:text-orange-accent transition duration-200">About</a>
+                <a href="#signup" class="hover:text-orange-accent transition duration-200">Get Started</a>
+            </nav>
+
+            <!-- Copyright -->
+            <p class="text-sm text-gray-500">
+                &copy; 2025 DailyRising. Rise with purpose.
+            </p>
+        </div>
+    </footer>
+
+<script>
+    // --- Gemini API Configuration ---
+    const apiKey = "";
+    const API_URL_TEXT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+    const API_URL_TTS = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+    
+    /**
+     * Utility function to handle API calls with exponential backoff.
+     */
+    async function retryWithBackoff(func, maxRetries = 3, delay = 1000) {
+        for (let i = 0; i < maxRetries; i++) {
+            try {
+                return await func();
+            } catch (error) {
+                if (i === maxRetries - 1) throw error;
+                await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
+            }
+        }
+    }
+
+    // --- Feature 1: Personalized Morning Tip (Grounded Text Generation) ---
+
+    async function generateHabitTip() {
+        const btn = document.getElementById('generateTipBtn');
+        const btnText = document.getElementById('tipBtnText');
+        const resultDiv = document.getElementById('tipResult');
+        const contentDiv = document.getElementById('tipContent');
+        const sourcesDiv = document.getElementById('tipSources');
+        const errorDiv = document.getElementById('tipError');
+
+        // Reset UI
+        resultDiv.classList.add('hidden');
+        errorDiv.classList.add('hidden');
+        btnText.textContent = 'Generating Tip...';
+        btn.disabled = true;
+
+        try {
+            const userQuery = "What is the best science-backed morning habit or hack I can implement today for better health and focus? Provide a concise, single-paragraph summary.";
+            const systemPrompt = "You are a professional life coach and wellness expert. Provide a concise, single-paragraph summary of an actionable, grounded tip on improving morning habits.";
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                tools: [{ "google_search": {} }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+            };
+
+            const response = await retryWithBackoff(() => fetch(API_URL_TEXT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }));
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            const candidate = result.candidates?.[0];
+
+            if (candidate && candidate.content?.parts?.[0]?.text) {
+                const text = candidate.content.parts[0].text;
+                let sources = [];
+                const groundingMetadata = candidate.groundingMetadata;
+                
+                if (groundingMetadata && groundingMetadata.groundingAttributions) {
+                    sources = groundingMetadata.groundingAttributions
+                        .map(attribution => ({
+                            uri: attribution.web?.uri,
+                            title: attribution.web?.title,
+                        }))
+                        .filter(source => source.uri && source.title)
+                        // Deduplicate sources by URI
+                        .filter((source, index, self) => 
+                            index === self.findIndex((s) => s.uri === source.uri)
+                        ); 
+                }
+
+                contentDiv.innerHTML = `<p>${text}</p>`;
+
+                if (sources.length > 0) {
+                    sourcesDiv.innerHTML = 'Sources: ' + sources.map((s, i) => 
+                        `<a href="${s.uri}" target="_blank" class="text-blue-400 hover:underline">${s.title.slice(0, 40)}...</a>`
+                    ).join(' | ');
+                } else {
+                    sourcesDiv.textContent = 'Tip generated by Gemini.';
+                }
+                
+                resultDiv.classList.remove('hidden');
+
+            } else {
+                throw new Error("API response was missing generated text.");
+            }
+
+        } catch (error) {
+            console.error("Error generating habit tip:", error);
+            errorDiv.textContent = 'Failed to fetch the personalized tip. Please try again.';
+            errorDiv.classList.remove('hidden');
+        } finally {
+            btnText.textContent = '✨ Get My Personalized Tip';
+            btn.disabled = false;
+        }
+    }
+
+
+    // --- Feature 2: TTS (Text-to-Speech) Generation ---
+
+    // Utility to convert base64 PCM data to ArrayBuffer
+    function base64ToArrayBuffer(base64) {
+        const binaryString = atob(base64);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes.buffer;
+    }
+
+    // Utility to convert signed 16-bit PCM to WAV file format (Blob)
+    function pcmToWav(pcmData, sampleRate) {
+        const buffer = new ArrayBuffer(44 + pcmData.length * 2);
+        const view = new DataView(buffer);
+        const numChannels = 1;
+        const bitsPerSample = 16;
+        const byteRate = sampleRate * numChannels * (bitsPerSample / 8);
+        const blockAlign = numChannels * (bitsPerSample / 8);
+
+        // RIFF chunk descriptor
+        view.setUint32(0, 0x52494646, false); // "RIFF"
+        view.setUint32(4, 36 + pcmData.length * 2, true); // chunk size
+        view.setUint32(8, 0x57415645, false); // "WAVE"
+
+        // FMT sub-chunk
+        view.setUint32(12, 0x666d7420, false); // "fmt "
+        view.setUint32(16, 16, true); // sub-chunk size (16 for PCM)
+        view.setUint16(20, 1, true); // audio format (1 for PCM)
+        view.setUint16(22, numChannels, true); // number of channels
+        view.setUint32(24, sampleRate, true); // sample rate
+        view.setUint32(28, byteRate, true); // byte rate
+        view.setUint16(32, blockAlign, true); // block align
+        view.setUint16(34, bitsPerSample, true); // bits per sample
+
+        // Data sub-chunk
+        view.setUint32(36, 0x64617461, false); // "data"
+        view.setUint32(40, pcmData.length * 2, true); // data size
+
+        // Write PCM data
+        let offset = 44;
+        for (let i = 0; i < pcmData.length; i++) {
+            view.setInt16(offset, pcmData[i], true);
+            offset += 2;
+        }
+
+        return new Blob([view], { type: 'audio/wav' });
+    }
+
+    let audio; // Global Audio object to control playback
+
+    async function generateTtsSummary() {
+        const btn = document.getElementById('ttsBtn');
+        const btnText = document.getElementById('ttsBtnText');
+        const ttsIcon = document.getElementById('ttsIcon');
+        const errorDiv = document.getElementById('ttsError');
+        const routineText = document.getElementById('routineDescription').textContent.trim();
+
+        // 1. If audio is playing, stop it
+        if (audio && !audio.paused) {
+            audio.pause();
+            audio.currentTime = 0;
+            btnText.textContent = '🔊 Hear Routine Summary';
+            ttsIcon.classList.remove('animate-pulse');
+            return;
+        }
+
+        // Reset UI
+        errorDiv.classList.add('hidden');
+        btnText.textContent = 'Generating Audio...';
+        ttsIcon.classList.add('animate-pulse');
+        btn.disabled = true;
+
+        try {
+            const ttsPrompt = `Say in a clear, motivating tone: "${routineText}"`;
+
+            const payload = {
+                contents: [{ parts: [{ text: ttsPrompt }] }],
+                generationConfig: {
+                    responseModalities: ["AUDIO"],
+                    speechConfig: {
+                        voiceConfig: {
+                            prebuiltVoiceConfig: { voiceName: "Kore" } // Using Kore voice
+                        }
+                    }
+                },
+                model: "gemini-2.5-flash-preview-tts"
+            };
+
+            const response = await retryWithBackoff(() => fetch(API_URL_TTS, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }));
+
+            if (!response.ok) {
+                throw new Error(`TTS HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            const part = result?.candidates?.[0]?.content?.parts?.[0];
+            const audioData = part?.inlineData?.data;
+            const mimeType = part?.inlineData?.mimeType;
+
+            if (audioData && mimeType && mimeType.startsWith("audio/L16")) {
+                // Extract sample rate from mimeType (e.g., audio/L16;rate=16000)
+                const rateMatch = mimeType.match(/rate=(\d+)/);
+                const sampleRate = rateMatch ? parseInt(rateMatch[1], 10) : 16000; // Default to 16000 if extraction fails
+
+                const pcmData = base64ToArrayBuffer(audioData);
+                const pcm16 = new Int16Array(pcmData);
+
+                const wavBlob = pcmToWav(pcm16, sampleRate);
+                const audioUrl = URL.createObjectURL(wavBlob);
+
+                audio = new Audio(audioUrl);
+                
+                // Update UI on play/end
+                audio.onplaying = () => {
+                    btnText.textContent = '⏸️ Stop Playback';
+                    ttsIcon.classList.add('animate-spin');
+                };
+                audio.onended = () => {
+                    btnText.textContent = '🔊 Hear Routine Summary';
+                    ttsIcon.classList.remove('animate-spin');
+                    ttsIcon.classList.remove('animate-pulse');
+                    btn.disabled = false;
+                };
+
+                // Play the audio
+                audio.play();
+
+            } else {
+                throw new Error("TTS API response was missing or contained invalid audio data.");
+            }
+
+        } catch (error) {
+            console.error("Error generating TTS:", error);
+            errorDiv.textContent = 'Failed to generate audio. Please check console for details.';
+            errorDiv.classList.remove('hidden');
+        } finally {
+            // Restore button if not playing
+            if (!audio || audio.paused) {
+                btnText.textContent = '🔊 Hear Routine Summary';
+                ttsIcon.classList.remove('animate-pulse');
+                btn.disabled = false;
+            }
+        }
+    }
+
+</script>
+</body>
+</html>
